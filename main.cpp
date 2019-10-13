@@ -18,16 +18,10 @@
 #include "SFML/Audio.hpp"
 #include "SFML/Graphics.hpp"
 
-FILE _iob[] = { *stdin, *stdout, *stderr };
-extern "C" FILE* __cdecl __iob_func(void){
-   return _iob;
-}
-
 #define BACKBROUND_RGB sf::Color(73,95,105)
 #define SNAKE_RGB sf::Color(192,192,192)
 #define FOOD_RGB sf::Color(255,192,203)
 #define SCOREBOARD_RGB sf::Color(192,188,101)
-//#define SPECIALFOOD_RGB sf::Color(230,190,200)
 
 constexpr size_t winWidth  = 700;
 constexpr size_t winHeight = 600;
@@ -77,7 +71,6 @@ public:
 	std::unique_ptr<sf::SoundBuffer> eatSoundBuffer  = std::make_unique<sf::SoundBuffer>();
 	std::unique_ptr<sf::SoundBuffer> failSoundBuffer = std::make_unique<sf::SoundBuffer>();
 	sf::Sound eatingSound;
-	sf::Sound failSound;
 
 	Snake(){
 	  snakeBody.setRadius(snakeRadius);
@@ -121,10 +114,6 @@ public:
 		if (eatSoundBuffer->loadFromFile("eat.wav")) {
 			eatingSound.setBuffer(*eatSoundBuffer);
 		}
-
-		if (failSoundBuffer->loadFromFile("fail.wav")) {
-			failSound.setBuffer(*failSoundBuffer);
-		}
 	}
 	
 	void updatePosition() {
@@ -154,7 +143,6 @@ public:
 
 		if (checkInterection(snakePosition,snakePosition.front(),snakeRadius,std::nullopt)) {
 			selfCollision = true;
-			//failSound.play();
 		}
 		else {
 			snakePosition.emplace_front(sf::Vector2f(snakePosition.front() + snakeVelocity.first));
@@ -182,9 +170,6 @@ public:
 	sf::Vector2f foodPosition;
 	const sf::Vector2f foodSize = { 12.5,12.5 };
 	const size_t foodRadius = (foodSize.x + foodSize.y) / 2*sqrt(2);
-
-	//sf::CircleShape specialFood;
-	//float specialFoodRadius = 4.0f;
 
 	bool snakeAteFood = false;
 	std::unique_ptr<Snake> snakeHWND = std::make_unique<Snake>();
