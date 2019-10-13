@@ -1,5 +1,5 @@
 // Written By: Anu Panicker
-// Github : the_mastercoder
+// Github : the-mastercoder
 // Insta : anupanicker.ig
 // Dated : 14 - OCT - MMXIX
 //Licence : MIT
